@@ -202,12 +202,6 @@ public final class PowerManagerService extends SystemService
     private Light mAttentionLight;
     private Light mButtonsLight;
 
-    private int mButtonTimeout;
-    private int mButtonBrightness;
-    private int mButtonBrightnessSettingDefault;
-    private int mKeyboardBrightness;
-    private int mKeyboardBrightnessSettingDefault;
-
     private final Object mLock = new Object();
 
     // A bitfield that indicates what parts of the power state have
@@ -1760,23 +1754,11 @@ public final class PowerManagerService extends SystemService
                     nextTimeout = mLastUserActivityTime
                             + screenOffTimeout - screenDimDuration;
                     if (now < nextTimeout) {
-                        int buttonBrightness, keyboardBrightness;
-                        if (mButtonBrightnessOverrideFromWindowManager >= 0) {
-                            buttonBrightness = mButtonBrightnessOverrideFromWindowManager;
-                            keyboardBrightness = mButtonBrightnessOverrideFromWindowManager;
+                        if (now > mLastUserActivityTime + BUTTON_ON_DURATION) {
+                            mButtonsLight.setBrightness(0);
                         } else {
-                            buttonBrightness = mButtonBrightness;
-                            keyboardBrightness = mKeyboardBrightness;
-                        }
-
-                        //mKeyboardLight.setBrightness(mKeyboardVisible ? keyboardBrightness : 0);
-                        if (mButtonTimeout != 0 && now > mLastUserActivityTime + mButtonTimeout) {
-                             mButtonsLight.setBrightness(0);
-                        } else {
-                            mButtonsLight.setBrightness(buttonBrightness);
-                            if (buttonBrightness != 0 && mButtonTimeout != 0) {
-                                nextTimeout = now + mButtonTimeout;
-                            }
+                            mButtonsLight.setBrightness(mDisplayPowerRequest.screenBrightness);
+                            nextTimeout = now + BUTTON_ON_DURATION;
                         }
                         mUserActivitySummary = USER_ACTIVITY_SCREEN_BRIGHT;
                     } else {
