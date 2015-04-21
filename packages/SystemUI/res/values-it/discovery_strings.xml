@@ -38,4 +38,11 @@
     <string name="accessibility_quick_settings_sync_changed_off">Sincronizzazione spenta</string>
     <string name="accessibility_quick_settings_sync_changed_on">Sincronizzazione attiva</string>
 
+    <!-- Heads Up QS Tile -->
+    <string name="quick_settings_heads_up_label">Heads up</string>
+    <string name="accessibility_quick_settings_heads_up_off">Heads up disattivo</string>
+    <string name="accessibility_quick_settings_heads_up_on">Heads up attivo</string>
+    <string name="accessibility_quick_settings_heads_up_changed_off">Heads up spento</string>
+    <string name="accessibility_quick_settings_heads_up_changed_on">Heads up acceso</string>
+
 </resources>
