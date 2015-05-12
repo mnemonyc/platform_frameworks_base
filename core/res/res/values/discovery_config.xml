@@ -80,4 +80,6 @@
          config to 19. -->
     <integer name="config_deviceHardwareKeys">19</integer>
 
+    <!-- Default value for led color when battery is really fully charged -->
+    <integer name="config_notificationsBatteryReallyFullARGB">0xFF0000FF</integer>
 </resources>
