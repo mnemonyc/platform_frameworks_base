@@ -3616,12 +3616,6 @@ public final class Settings {
         @Deprecated
         public static final String LOCK_SOUND = Global.LOCK_SOUND;
 
-         /**
-         * Whether the notification light will be allowed when in zen mode during downtime
-         * @hide
-         */
-        public static final String ALLOW_LIGHTS = "allow_lights";
-
         /**
          * @deprecated Use {@link android.provider.Settings.Global#UNLOCK_SOUND}
          * instead
@@ -3845,7 +3839,7 @@ public final class Settings {
          * @hide
          */
         public static final String KEYGUARD_TOGGLE_TORCH = "keyguard_toggle_torch";
-        
+
         /**
          * Show or hide clock
          * 0 - hide
@@ -4109,15 +4103,8 @@ public final class Settings {
             LOCK_TO_APP_ENABLED,
             NOTIFICATION_SOUND,
             ACCELEROMETER_ROTATION,
-<<<<<<< HEAD
             NOTIFICATION_LIGHT_SCREEN_ON,
             ALLOW_LIGHTS
-=======
-            ALLOW_LIGHTS,
-            INCREASING_RING,
-            INCREASING_RING_START_VOLUME,
-            INCREASING_RING_RAMP_UP_TIME
->>>>>>> 7af117d... Frameworks: Allow/Prevent notification light in Zen mode (1 of 2)
         };
 
         /**
