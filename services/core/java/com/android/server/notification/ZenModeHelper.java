@@ -1065,7 +1065,7 @@ public class ZenModeHelper {
                 if (mZenMode != getZenModeSetting()) {
                     if (DEBUG) Log.d(TAG, "Fixing zen mode setting");
                     setZenModeSetting(mZenMode);
-                    }
+                }
             } else if (ALLOW_LIGHTS.equals(uri)) {
                 readLightsAllowedModeFromSetting();
             }
