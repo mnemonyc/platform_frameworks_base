@@ -3948,10 +3948,15 @@ public final class Settings {
         public static final String KEY_HOME_LONG_PRESS_ACTION = "key_home_long_press_action";
 
         /**
+         * Three Finger Gesture from Oppo
+         * @hide
+         */
+        public static final String THREE_FINGER_GESTURE = "three_finger_gesture";
+
+        /**
          * Action to perform when the home key is double-tapped.
          * (Default can be configured via config_doubleTapOnHardwareHomeBehavior)
-         * (See KEY_HOME_LONG_PRESS_ACTION for valid values)
-         * @hide
+         * (See KEY_HOME_LONG_PRESS_ACTION for valid values)         * @hide
          */
         public static final String KEY_HOME_DOUBLE_TAP_ACTION = "key_home_double_tap_action";
 
