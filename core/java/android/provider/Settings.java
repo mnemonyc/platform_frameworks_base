@@ -3863,6 +3863,12 @@ public final class Settings {
                 "network_traffic_autohide_threshold";
 
         /**
+         * Whether to disable showing arrows in network traffic indicators
+         * @hide
+         */
+        public static final String NETWORK_TRAFFIC_HIDEARROW = "network_traffic_hidearrow";
+
+        /**
          * Show or hide clock
          * 0 - hide
          * 1 - show (default)
