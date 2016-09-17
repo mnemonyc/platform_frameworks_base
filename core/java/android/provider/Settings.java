@@ -2855,22 +2855,6 @@ public final class Settings {
         public static final int SCREEN_BRIGHTNESS_MODE_AUTOMATIC = 1;
 
         /**
-         * The button brightness to be used while the screen is on or after a button press,
-         * depending on the value of {@link BUTTON_BACKLIGHT_TIMEOUT}.
-         * Valid value range is between 0 and {@link PowerManager#getMaximumButtonBrightness()}
-         * @hide
-         */
-        public static final String BUTTON_BRIGHTNESS = "button_brightness";
-
-        /**
-          * Whether user can enable/disable button brightness.
-          * <p>
-          * Type: int (0 for false, 1 for true)
-          * @hide
-          */
-          public static final String BUTTON_BRIGHTNESS_ENABLED = "button_brightness_enabled";
-
-        /**
          * The time in ms to keep the button backlight on after pressing a button.
          * A value of 0 will keep the buttons on for as long as the screen is on.
          * @hide
@@ -3933,21 +3917,6 @@ public final class Settings {
         public static final String FINGERPRINT_SUCCESS_VIB = "fingerprint_success_vib";
 
         /**
-         * Action to perform when the home key is long-pressed.
-         * (Default can be configured via config_longPressOnHardwareHomeBehavior)
-         * 0 - Nothing
-         * 1 - Menu
-         * 2 - App-switch
-         * 3 - Search
-         * 4 - Voice search
-         * 5 - In-app search
-         * 6 - Launch Camera
-         * 7 - Laucnh last app
-         * @hide
-         */
-        public static final String KEY_HOME_LONG_PRESS_ACTION = "key_home_long_press_action";
-
-        /**
          * Three Finger Gesture from Oppo
          * @hide
          */
@@ -4029,35 +3998,34 @@ public final class Settings {
          * Action to perform when the app switch key is long-pressed.
          * (Default can be configured via config_longPressOnHardwareCameraBehavior)
          * (See KEY_HOME_LONG_PRESS_ACTION for valid values)
+         * Whether to wake the screen with the home key, the value is boolean.
          * @hide
          */
-        public static final String KEY_CAMERA_LONG_PRESS_ACTION = "key_camera_long_press_action";
-
-        /**
-         * Action to perform when the camera key is double-tapped.
-         * (Default can be configured via config_doubleTapOnHardwareCameraBehavior)
-         * (See KEY_HOME_LONG_PRESS_ACTION for valid values)
-         * @hide
-         */
-        public static final String KEY_CAMERA_DOUBLE_TAP_ACTION = "key_camera_double_tap_action";
-
-        /** @hide */
-        public static final Validator KEY_VALIDATOR = new Validator() {
-            @Override
-            public boolean validate(String value) {
-                try {
-                    return Long.parseLong(value) >= 0;
-                } catch (NumberFormatException e) {
-                    return false;
-                }
-            }
-        };
+        public static final String HOME_WAKE_SCREEN = "home_wake_screen";
 
         /**
          * Unlock keystore with fingerprint after reboot
          * @hide
          */
         public static final String FP_UNLOCK_KEYSTORE = "fp_unlock_keystore";
+
+        /**
+         * Value for button brightness.
+         * This is an integer value in a range between 0 and 255.
+         *      0 = off
+         *    255 = default
+         *    255 = max
+         * @hide
+         */
+        public static final String BUTTON_BRIGHTNESS = "button_brightness";
+
+        /**
+         * Whether user can enable/disable button brightness.
+         * <p>
+         * Type: int (0 for false, 1 for true)
+         * @hide
+         */
+        public static final String BUTTON_BRIGHTNESS_ENABLED = "button_brightness_enabled";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
@@ -4220,18 +4188,6 @@ public final class Settings {
             PRIVATE_SETTINGS.add(NAVIGATION_BAR_ENABLED);
             PRIVATE_SETTINGS.add(BUTTON_BRIGHTNESS);
             PRIVATE_SETTINGS.add(BUTTON_BRIGHTNESS_ENABLED);
-            PRIVATE_SETTINGS.add(KEY_HOME_LONG_PRESS_ACTION);
-            PRIVATE_SETTINGS.add(KEY_HOME_DOUBLE_TAP_ACTION);
-            PRIVATE_SETTINGS.add(KEY_MENU_LONG_PRESS_ACTION);
-            PRIVATE_SETTINGS.add(KEY_MENU_DOUBLE_TAP_ACTION);
-            PRIVATE_SETTINGS.add(KEY_BACK_LONG_PRESS_ACTION);
-            PRIVATE_SETTINGS.add(KEY_BACK_DOUBLE_TAP_ACTION);
-            PRIVATE_SETTINGS.add(KEY_ASSIST_LONG_PRESS_ACTION);
-            PRIVATE_SETTINGS.add(KEY_ASSIST_DOUBLE_TAP_ACTION);
-            PRIVATE_SETTINGS.add(KEY_APP_SWITCH_LONG_PRESS_ACTION);
-            PRIVATE_SETTINGS.add(KEY_APP_SWITCH_DOUBLE_TAP_ACTION);
-            PRIVATE_SETTINGS.add(KEY_CAMERA_LONG_PRESS_ACTION);
-            PRIVATE_SETTINGS.add(KEY_CAMERA_DOUBLE_TAP_ACTION);
         }
 
         /**
