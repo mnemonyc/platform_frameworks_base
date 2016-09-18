@@ -45,4 +45,10 @@
     <string name="accessibility_quick_settings_heads_up_changed_off">Heads up spento</string>
     <string name="accessibility_quick_settings_heads_up_changed_on">Heads up acceso</string>
 
+    <!-- Sound Tile -->
+    <string name="quick_settings_sound_label">Suoneria</string>
+    <string name="quick_settings_sound_ring">Normale</string>
+    <string name="quick_settings_sound_vibrate">Vibrazione</string>
+    <string name="quick_settings_sound_dnd">Non disturbare</string>
+
 </resources>

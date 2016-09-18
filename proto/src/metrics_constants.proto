@@ -2252,5 +2252,8 @@ message MetricsEvent {
 
     // DISCOVERY CONSTANTS
     DISCOVERY = 500;
+
+    // Quick setting tiles
+    QUICK_SETTINGS = 999;
   }
 }
