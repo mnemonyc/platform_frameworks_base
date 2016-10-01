@@ -170,8 +170,6 @@ public final class PowerManagerService extends SystemService
     // Power features defined in hardware/libhardware/include/hardware/power.h.
     private static final int POWER_FEATURE_DOUBLE_TAP_TO_WAKE = 1;
 
-    private static final int DEFAULT_BUTTON_ON_DURATION = 5 * 1000;
-
     // Default setting for double tap to wake.
     private static final int DEFAULT_DOUBLE_TAP_TO_WAKE = 0;
 
@@ -440,11 +438,6 @@ public final class PowerManagerService extends SystemService
     // Set to -1 when not told the user is inactive since the last period spent dozing or asleep.
     private long mOverriddenTimeout = -1;
 
-    // The button brightness setting override from the window manager
-    // to allow the current foreground activity to override the button brightness.
-    // Use -1 to disable.
-    private int mButtonBrightnessOverrideFromWindowManager = -1;
-
     // The user activity timeout override from the window manager
     // to allow the current foreground activity to override the user activity timeout.
     // Use -1 to disable.
@@ -594,8 +587,6 @@ public final class PowerManagerService extends SystemService
             mScreenBrightnessSettingMinimum = pm.getMinimumScreenBrightnessSetting();
             mScreenBrightnessSettingMaximum = pm.getMaximumScreenBrightnessSetting();
             mScreenBrightnessSettingDefault = pm.getDefaultScreenBrightnessSetting();
-            mButtonBrightnessSettingDefault = pm.getDefaultButtonBrightness();
-            mKeyboardBrightnessSettingDefault = pm.getDefaultKeyboardBrightness();
 
             SensorManager sensorManager = new SystemSensorManager(mContext, mHandler.getLooper());
 
@@ -689,17 +680,6 @@ public final class PowerManagerService extends SystemService
             } catch (RemoteException e) {
                 Slog.e(TAG, "Failed to register VR mode state listener: " + e);
             }
-
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.BUTTON_BRIGHTNESS),
-                    false, mSettingsObserver, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.KEYBOARD_BRIGHTNESS),
-                    false, mSettingsObserver, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.BUTTON_BACKLIGHT_TIMEOUT),
-                    false, mSettingsObserver, UserHandle.USER_ALL);
-
             // Go.
             readConfigurationLocked();
             updateSettingsLocked();
@@ -819,17 +799,6 @@ public final class PowerManagerService extends SystemService
             mAutoLowPowerModeConfigured = autoLowPowerModeConfigured;
             updateLowPowerModeLocked();
         }
-
-        mButtonTimeout = Settings.System.getIntForUser(resolver,
-                Settings.System.BUTTON_BACKLIGHT_TIMEOUT,
-                DEFAULT_BUTTON_ON_DURATION, UserHandle.USER_CURRENT);
-
-        mButtonBrightness = Settings.System.getIntForUser(resolver,
-                Settings.System.BUTTON_BRIGHTNESS, mButtonBrightnessSettingDefault,
-                UserHandle.USER_CURRENT);
-        mKeyboardBrightness = Settings.System.getIntForUser(resolver,
-                Settings.System.KEYBOARD_BRIGHTNESS, mKeyboardBrightnessSettingDefault,
-                UserHandle.USER_CURRENT);
 
         mDirty |= DIRTY_SETTINGS;
     }
@@ -3852,16 +3821,6 @@ public final class PowerManagerService extends SystemService
         }
     }
 
-    private void setButtonBrightnessOverrideFromWindowManagerInternal(int brightness) {
-        synchronized (mLock) {
-            if (mButtonBrightnessOverrideFromWindowManager != brightness) {
-                mButtonBrightnessOverrideFromWindowManager = brightness;
-                mDirty |= DIRTY_SETTINGS;
-                updatePowerStateLocked();
-            }
-        }
-    }
-
     private final class LocalService extends PowerManagerInternal {
         @Override
         public void setScreenBrightnessOverrideFromWindowManager(int screenBrightness) {
@@ -3874,15 +3833,8 @@ public final class PowerManagerService extends SystemService
 
         @Override
         public void setButtonBrightnessOverrideFromWindowManager(int screenBrightness) {
-            mContext.enforceCallingOrSelfPermission(android.Manifest.permission.DEVICE_POWER, null);
-
-            final long ident = Binder.clearCallingIdentity();
-            try {
-                setButtonBrightnessOverrideFromWindowManagerInternal(screenBrightness);
-            } finally {
-                Binder.restoreCallingIdentity(ident);
-            }
-
+            // Do nothing.
+            // Button lights are not currently supported in the new implementation.
         }
 
         @Override
