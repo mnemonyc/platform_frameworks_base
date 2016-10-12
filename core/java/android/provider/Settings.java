@@ -3777,6 +3777,14 @@ public final class Settings {
                 }
             }
         };
+        
+        /**
+         * Whether touchscreen gestures give a haptic feedback
+         * 
+         * @hide
+         */
+        public static final String TOUCHSCREEN_GESTURE_HAPTIC_FEEDBACK =
+                                "touchscreen_gesture_haptic_feedback";
 
         /**
          * IMPORTANT: If you add a new public settings you also have to add it to
@@ -4115,6 +4123,7 @@ public final class Settings {
             PUBLIC_SETTINGS.add(HAPTIC_FEEDBACK_ENABLED);
             PUBLIC_SETTINGS.add(SHOW_WEB_SUGGESTIONS);
             PUBLIC_SETTINGS.add(VIBRATE_WHEN_RINGING);
+            PUBLIC_SETTINGS.add(TOUCHSCREEN_GESTURE_HAPTIC_FEEDBACK);
         }
 
         /**
