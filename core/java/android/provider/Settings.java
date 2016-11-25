@@ -6940,6 +6940,13 @@ public final class Settings {
         public static final String HARDWARE_KEYS_DISABLE = "hardware_keys_disable";
 
         /**
+         * battery icon color when charging
+         *
+         * @hide
+         */
+        public static final String STATUS_BAR_CHARGE_COLOR = "status_bar_charge_color";
+
+        /**
          * Control whether Night display is currently activated.
          * @hide
          */
