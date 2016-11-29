@@ -6947,6 +6947,16 @@ public final class Settings {
         public static final String STATUS_BAR_CHARGE_COLOR = "status_bar_charge_color";
 
         /**
+         * Charging symbol near battery text percentage
+         * 0: no symbol
+         * 1: flash symbol
+         * 2: tilde symbol
+         * default: 0
+         * @hide
+         */
+        public static final String TEXT_CHARGING_SYMBOL = "text_charging_symbol";
+
+        /**
          * Control whether Night display is currently activated.
          * @hide
          */
