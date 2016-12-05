@@ -1098,7 +1098,7 @@ class BluetoothManagerService extends IBluetoothManager.Stub {
                         // the previous Bluetooth process has exited. The
                         // waiting period has three components:
                         // (a) Wait until the local state is STATE_OFF. This
-                        //     is accomplished by "waitForOnOff(false, true)".
+                        //     is accomplished by "waitForMonitoredOnOff(false, true)".
                         // (b) Wait until the STATE_OFF state is updated to
                         //     all components.
                         // (c) Wait until the Bluetooth process exits, and
@@ -1108,7 +1108,17 @@ class BluetoothManagerService extends IBluetoothManager.Stub {
                         // message. On slower devices, that delay needs to be
                         // on the order of (2 * SERVICE_RESTART_TIME_MS).
                         //
-                        waitForOnOff(false, true);
+                        // Wait for (a) is required only when Bluetooth is being
+                        // turned off.
+                        int state;
+                        try {
+                            state = mBluetooth.getState();
+                        } catch (RemoteException e) {
+                            Slog.e(TAG, "getState()", e);
+                            break;
+                        }
+                        if(state == BluetoothAdapter.STATE_TURNING_OFF || state == BluetoothAdapter.STATE_BLE_TURNING_OFF)
+                            waitForMonitoredOnOff(false, true);
                         Message restartMsg = mHandler.obtainMessage(
                                 MESSAGE_RESTART_BLUETOOTH_SERVICE);
                         mHandler.sendMessageDelayed(restartMsg,
@@ -1120,10 +1130,10 @@ class BluetoothManagerService extends IBluetoothManager.Stub {
                     if (DBG) Slog.d(TAG, "MESSAGE_DISABLE: mBluetooth = " + mBluetooth);
                     mHandler.removeMessages(MESSAGE_RESTART_BLUETOOTH_SERVICE);
                     if (mEnable && mBluetooth != null) {
-                        waitForOnOff(true, false);
+                        waitForMonitoredOnOff(true, false);
                         mEnable = false;
                         handleDisable();
-                        waitForOnOff(false, false);
+                        waitForMonitoredOnOff(false, false);
                     } else {
                         mEnable = false;
                         handleDisable();
@@ -1218,9 +1228,9 @@ class BluetoothManagerService extends IBluetoothManager.Stub {
                     }
 
                     if (!mEnable) {
-                        waitForOnOff(true, false);
+                        waitForMonitoredOnOff(true, false);
                         handleDisable();
-                        waitForOnOff(false, false);
+                        waitForMonitoredOnOff(false, false);
                     }
                     break;
                 }
@@ -1253,7 +1263,7 @@ class BluetoothManagerService extends IBluetoothManager.Stub {
                             (newState == BluetoothAdapter.STATE_OFF)) {
                         if (mEnable) {
                             Slog.d(TAG, "Entering STATE_OFF but mEnabled is true; restarting.");
-                            waitForOnOff(false, true);
+                            waitForMonitoredOnOff(false, true);
                             Message restartMsg = mHandler.obtainMessage(
                                     MESSAGE_RESTART_BLUETOOTH_SERVICE);
                             mHandler.sendMessageDelayed(restartMsg, 2 * SERVICE_RESTART_TIME_MS);
@@ -1632,7 +1642,7 @@ class BluetoothManagerService extends IBluetoothManager.Stub {
      */
     private boolean waitForOnOff(boolean on, boolean off) {
         int i = 0;
-        while (i < 10) {
+        while (i < 16) {
             try {
                 mBluetoothLock.readLock().lock();
                 if (mBluetooth == null) break;
@@ -1650,9 +1660,9 @@ class BluetoothManagerService extends IBluetoothManager.Stub {
                 mBluetoothLock.readLock().unlock();
             }
             if (on || off) {
-                SystemClock.sleep(300);
+                SystemClock.sleep(500);
             } else {
-                SystemClock.sleep(50);
+                SystemClock.sleep(30);
             }
             i++;
         }
@@ -1667,7 +1677,7 @@ class BluetoothManagerService extends IBluetoothManager.Stub {
      */
     private boolean waitForMonitoredOnOff(boolean on, boolean off) {
         int i = 0;
-        while (i < 16) {
+        while (i < 10) {
             synchronized(mConnection) {
                 try {
                     if (mBluetooth == null) break;
@@ -1676,12 +1686,17 @@ class BluetoothManagerService extends IBluetoothManager.Stub {
                         if (mBluetooth.getState() == BluetoothAdapter.STATE_BLE_ON) {
                             bluetoothStateChangeHandler(BluetoothAdapter.STATE_BLE_TURNING_ON,
                                                         BluetoothAdapter.STATE_BLE_ON);
+                            boolean ret = waitForOnOff(on, off);
+                            return ret;
                         }
                     } else if (off) {
                         if (mBluetooth.getState() == BluetoothAdapter.STATE_OFF) return true;
-                        if (mBluetooth.getState() == BluetoothAdapter.STATE_BLE_ON)
+                        if (mBluetooth.getState() == BluetoothAdapter.STATE_BLE_ON) {
                             bluetoothStateChangeHandler(BluetoothAdapter.STATE_TURNING_OFF,
                                                         BluetoothAdapter.STATE_BLE_ON);
+                            boolean ret = waitForOnOff(on, off);
+                            return ret;
+                        }
                     } else {
                         if (mBluetooth.getState() != BluetoothAdapter.STATE_ON) return true;
                     }
@@ -1691,13 +1706,13 @@ class BluetoothManagerService extends IBluetoothManager.Stub {
                 }
             }
             if (on || off) {
-                SystemClock.sleep(500);
+                SystemClock.sleep(300);
             } else {
-                SystemClock.sleep(30);
+                SystemClock.sleep(50);
             }
             i++;
         }
-        Slog.e(TAG,"waitForOnOff time out");
+        Slog.e(TAG,"waitForMonitoredOnOff time out");
         return false;
     }
 
@@ -1735,7 +1750,7 @@ class BluetoothManagerService extends IBluetoothManager.Stub {
             mBluetoothLock.readLock().unlock();
         }
 
-        waitForOnOff(false, true);
+        waitForMonitoredOnOff(false, true);
 
         sendBluetoothServiceDownCallback();
 
