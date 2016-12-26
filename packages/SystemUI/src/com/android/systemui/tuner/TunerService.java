@@ -44,7 +44,6 @@ import com.android.systemui.SystemUI;
 import com.android.systemui.SystemUIApplication;
 import com.android.systemui.settings.CurrentUserTracker;
 import com.android.systemui.statusbar.phone.StatusBarIconController;
-import com.android.systemui.statusbar.phone.SystemUIDialog;
 
 import java.util.HashMap;
 import java.util.Set;
