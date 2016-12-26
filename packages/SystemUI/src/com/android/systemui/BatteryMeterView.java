@@ -67,6 +67,15 @@ public class BatteryMeterView extends ImageView implements
     }
 
     @Override
+    public void onTuningChanged(String key, String newValue) {
+        if (STATUS_BAR_BATTERY_STYLE.equals(key)) {
+            updateBatteryStyle(newValue);
+        } else if (STATUS_BAR_CHARGE_COLOR.equals(key)) {
+            updateBoltColor();
+        }
+    }
+
+    @Override
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
         mBatteryController.addStateChangedCallback(this);
