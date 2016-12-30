@@ -308,7 +308,7 @@ public class BatteryMeterDrawable extends Drawable implements
 
         mCharging = charging;
 
-        if (mStyle == BATTERY_STYLE_CIRCLE) {
+        if (mStyle == BATTERY_STYLE_CIRCLE || mStyle == BATTERY_STYLE_FULL_CIRCLE || mStyle == BATTERY_STYLE_BIGCIRCLE) {
             animateCircleBattery(level, pluggedIn, charging);
         }
 
