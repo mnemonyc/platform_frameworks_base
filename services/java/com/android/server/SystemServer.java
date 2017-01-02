@@ -470,12 +470,6 @@ public final class SystemServer {
             mOnlyCore = true;
         }
 
-        if (RegionalizationEnvironment.isSupported()) {
-            Slog.i(TAG, "Regionalization Service");
-            RegionalizationService regionalizationService = new RegionalizationService();
-            ServiceManager.addService("regionalization", regionalizationService);
-        }
-
         // Start the package manager.
         traceBeginAndSlog("StartPackageManagerService");
         mPackageManagerService = PackageManagerService.main(mSystemContext, installer,
