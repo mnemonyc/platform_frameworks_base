@@ -3485,6 +3485,12 @@ public final class Settings {
         public static final String DOCK_SOUNDS_ENABLED = Global.DOCK_SOUNDS_ENABLED;
 
         /**
+         * Check the proximity sensor during wakeup
+         * @hide
+         */
+        public static final String PROXIMITY_ON_WAKE = "proximity_on_wake";
+
+        /**
          * Whether to play sounds when the keyguard is shown and dismissed.
          * @hide
          */
@@ -6336,6 +6342,12 @@ public final class Settings {
          */
         public static final String CAMERA_DOUBLE_TWIST_TO_FLIP_ENABLED =
                 "camera_double_twist_to_flip_enabled";
+
+        /**
+         * Disable hw buttons - actions, brightness, haptic feedback, overflow menu
+         * @hide
+         */
+        public static final String HARDWARE_KEYS_DISABLE = "hardware_keys_disable";
 
         /**
          * Control whether Night display is currently activated.

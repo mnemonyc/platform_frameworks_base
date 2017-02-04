@@ -530,6 +530,12 @@ public final class PowerManagerService extends SystemService
     private static native void nativeSendPowerHint(int hintId, int data);
     private static native void nativeSetFeature(int featureId, int data);
 
+    // Whether proximity check on wake is enabled by default
+    private boolean mProximityWakeEnabledByDefaultConfig;
+
+    private boolean mProximityWakeSupported;
+    private boolean mProximityWakeEnabled;
+
     public PowerManagerService(Context context) {
         super(context);
         mContext = context;
