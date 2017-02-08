@@ -2567,7 +2567,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     @Override
     public int getNonDecorDisplayWidth(int fullWidth, int fullHeight, int rotation,
             int uiMode) {
-        if (hasNavigationBar() && shouldNavigationBarOccupySpace()) {
+        if (hasNavigationBar()) {
             // For a basic navigation bar, when we are in landscape mode we place
             // the navigation bar to the side.
             if (mNavigationBarCanMove && fullWidth > fullHeight) {
@@ -2588,7 +2588,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     @Override
     public int getNonDecorDisplayHeight(int fullWidth, int fullHeight, int rotation,
             int uiMode) {
-        if (hasNavigationBar() && shouldNavigationBarOccupySpace()) {
+        if (hasNavigationBar()) {
             // For a basic navigation bar, when we are in portrait mode we place
             // the navigation bar to the bottom.
             if (!mNavigationBarCanMove || fullWidth < fullHeight) {
