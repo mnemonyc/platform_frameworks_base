@@ -205,6 +205,7 @@ public final class PowerManagerService extends SystemService
 
     private int mButtonTimeout;
     private int mButtonBrightness;
+    private boolean mButtonBrightnessEnabled = true;
     private int mButtonBrightnessSettingDefault;
 
     private final Object mLock = new Object();
@@ -709,6 +710,9 @@ public final class PowerManagerService extends SystemService
                     Settings.System.BUTTON_BRIGHTNESS),
                     false, mSettingsObserver, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.BUTTON_BRIGHTNESS_ENABLED),
+                    false, mSettingsObserver, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.BUTTON_BACKLIGHT_TIMEOUT),
                     false, mSettingsObserver, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.Secure.getUriFor(
@@ -844,6 +848,9 @@ public final class PowerManagerService extends SystemService
         mButtonBrightness = Settings.System.getIntForUser(resolver,
                 Settings.System.BUTTON_BRIGHTNESS, mButtonBrightnessSettingDefault,
                 UserHandle.USER_CURRENT);
+        mButtonBrightnessEnabled = Settings.System.getIntForUser(resolver,
+                Settings.System.BUTTON_BRIGHTNESS_ENABLED, 0,
+                UserHandle.USER_CURRENT) == 1;
         mHardwareKeysDisable = Settings.Secure.getIntForUser(resolver,
                 Settings.Secure.HARDWARE_KEYS_DISABLE, 0,
                 UserHandle.USER_CURRENT) != 0;
@@ -1781,7 +1788,7 @@ public final class PowerManagerService extends SystemService
                         mUserActivitySummary = USER_ACTIVITY_SCREEN_BRIGHT;
                         if (mWakefulness == WAKEFULNESS_AWAKE) {
                             int buttonBrightness;
-                            if (mHardwareKeysDisable) {
+                            if (mHardwareKeysDisable || !mButtonBrightnessEnabled) {
                                 buttonBrightness = 0;
                             } else {
                             if (mButtonBrightnessOverrideFromWindowManager >= 0) {
