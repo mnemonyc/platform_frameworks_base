@@ -1577,6 +1577,8 @@
   <java-symbol type="integer" name="config_carDockRotation" />
   <java-symbol type="integer" name="config_defaultUiModeType" />
   <java-symbol type="integer" name="config_deskDockRotation" />
+  <java-symbol type="integer" name="config_deviceHardwareKeys" />
+  <java-symbol type="integer" name="config_deviceHardwareWakeKeys" />
   <java-symbol type="integer" name="config_doubleTapOnHomeBehavior" />
   <java-symbol type="integer" name="config_lidKeyboardAccessibility" />
   <java-symbol type="integer" name="config_lidNavigationAccessibility" />
@@ -2801,6 +2803,7 @@
   <!-- Screen-size-dependent modes for picker dialogs. -->
   <java-symbol type="integer" name="time_picker_mode" />
   <java-symbol type="integer" name="date_picker_mode" />
+
   <java-symbol type="bool" name="config_useSystemClockforRotationSensor" />
 
   <!-- Gesture Sensor -->

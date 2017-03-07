@@ -40,6 +40,7 @@
 
 <!-- Hardware Keys Default Constants  -->
   <java-symbol type="integer" name="config_deviceHardwareKeys" />
+  <java-symbol type="integer" name="config_deviceHardwareWakeKeys" />
   <java-symbol type="integer" name="config_doubleTapOnHardwareHomeBehavior" />
   <java-symbol type="integer" name="config_doubleTapOnHardwareMenuBehavior" />
   <java-symbol type="integer" name="config_doubleTapOnHardwareBackBehavior" />
@@ -65,4 +66,14 @@
   <java-symbol type="array" name="notification_light_package_mapping" />
   <java-symbol type="array" name="config_notificationNoAlertsVibePattern" />
   <java-symbol type="integer" name="config_notificationsBatteryReallyFullARGB" />
+
+  <!-- Notification icon/text dynamic tint -->
+  <java-symbol type="bool" name="config_allowNotificationIconTextTinting" />
+  <java-symbol type="bool" name="config_useDarkBgNotificationIconTextTinting" />
+  <java-symbol type="color" name="notification_text_default_color" />
+  <java-symbol type="color" name="sender_text_color" />
+
+  <!-- Doze invert -->
+  <java-symbol type="bool" name="config_invert_colors_on_doze" />
+
 </resources>
