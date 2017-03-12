@@ -239,13 +239,18 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private static final int KEY_ACTION_APP_SWITCH = 2;
     private static final int KEY_ACTION_SEARCH = 3;
     private static final int KEY_ACTION_VOICE_SEARCH = 4;
-    private static final int KEY_ACTION_IN_APP_SEARCH = 5;
-    private static final int KEY_ACTION_CAMERA = 6;
-    private static final int KEY_ACTION_LAST_APP = 7;
+    private static final int KEY_ACTION_CAMERA = 5;
+    private static final int KEY_ACTION_LAST_APP = 6;
+    private static final int KEY_ACTION_SINGLE_HAND_RIGHT = 7;
+    private static final int KEY_ACTION_SINGLE_HAND_LEFT = 8;
 
     // Special values, used internal only.
-    private static final int KEY_ACTION_HOME = KEY_ACTION_LAST_APP + 1;
-    private static final int KEY_ACTION_BACK = KEY_ACTION_LAST_APP + 2;
+    private static final int KEY_ACTION_HOME = 9;
+    private static final int KEY_ACTION_BACK = 10;
+
+    // OneHandMode requirements
+    private static final String LEFT = "left";
+    private static final String RIGHT = "right";
 
     // Masks for checking presence of hardware keys.
     // Must match values in core/res/res/values/config.xml
@@ -3917,13 +3922,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             switch(behavior) {
                 case KEY_ACTION_NOTHING:
                     break;
-                case KEY_ACTION_HOME:
-                    launchHomeFromHotKey();
-                    break;
-                case KEY_ACTION_BACK:
                 case KEY_ACTION_MENU:
-                case KEY_ACTION_IN_APP_SEARCH:
-                    triggerVirtualKeypress(keyCode);
+                    triggerVirtualKeypress(KeyEvent.KEYCODE_MENU);
                     break;
                 case KEY_ACTION_APP_SWITCH:
                     toggleRecentApps();
@@ -3939,6 +3939,18 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     break;
                 case KEY_ACTION_LAST_APP:
                     switchTolastApp();
+                    break;
+                case KEY_ACTION_SINGLE_HAND_RIGHT:
+                    Settings.Global.putString(mContext.getContentResolver(), Settings.Global.SINGLE_HAND_MODE, RIGHT);
+                    break;
+                case KEY_ACTION_SINGLE_HAND_LEFT:
+                    Settings.Global.putString(mContext.getContentResolver(), Settings.Global.SINGLE_HAND_MODE, LEFT);
+                    break;
+                case KEY_ACTION_HOME:
+                    launchHomeFromHotKey();
+                    break;
+                case KEY_ACTION_BACK:
+                    triggerVirtualKeypress(KeyEvent.KEYCODE_BACK);
                     break;
             }
         }
