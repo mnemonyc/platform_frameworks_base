@@ -4086,6 +4086,13 @@ public final class Settings {
          */
         public static final String KEY_HOME_DOUBLE_TAP_ACTION = "key_home_double_tap_action";
 
+        /**
+         * Action to perform when the menu key is long-pressed.
+         * (Default can be configured via config_longPressOnHardwareMenuBehavior)
+         * (See KEY_HOME_LONG_PRESS_ACTION for valid values)
+         * @hide
+         */
+        public static final String KEY_MENU_ACTION = "key_menu_action";
 
         /**
          * Action to perform when the menu key is long-pressed.
@@ -4102,6 +4109,14 @@ public final class Settings {
          * @hide
          */
         public static final String KEY_MENU_DOUBLE_TAP_ACTION = "key_menu_double_tap_action";
+
+        /**
+         * Action to perform when the menu key is long-pressed.
+         * (Default can be configured via config_longPressOnHardwareMenuBehavior)
+         * (See KEY_HOME_LONG_PRESS_ACTION for valid values)
+         * @hide
+         */
+        public static final String KEY_BACK_ACTION = "key_back_action";
 
         /**
          * Action to perform when the back key is long-pressed.
@@ -4134,6 +4149,14 @@ public final class Settings {
          * @hide
          */
         public static final String KEY_ASSIST_DOUBLE_TAP_ACTION = "key_assist_double_tap_action";
+
+        /**
+         * Action to perform when the app switch key is long-pressed.
+         * (Default can be configured via config_longPressOnHardwareAppSwitchBehavior)
+         * (See KEY_HOME_LONG_PRESS_ACTION for valid values)
+         * @hide
+         */
+        public static final String KEY_APP_SWITCH_ACTION = "key_app_switch_action";
 
         /**
          * Action to perform when the app switch key is long-pressed.
