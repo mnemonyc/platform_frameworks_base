@@ -235,19 +235,20 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     // core/res/res/values/config.xml
     private static final int KEY_ACTION_DEFAULT = -1;
     private static final int KEY_ACTION_NOTHING = 0;
-    private static final int KEY_ACTION_MENU = 1;
-    private static final int KEY_ACTION_APP_SWITCH = 2;
+    private static final int KEY_ACTION_MENU = 2;
     private static final int KEY_ACTION_BACK = 3;
-    private static final int KEY_ACTION_SEARCH = 4;
-    private static final int KEY_ACTION_VOICE_SEARCH = 5;
-    private static final int KEY_ACTION_CAMERA = 6;
-    private static final int KEY_ACTION_LAST_APP = 7;
-    private static final int KEY_ACTION_SINGLE_HAND_RIGHT = 8;
-    private static final int KEY_ACTION_SINGLE_HAND_LEFT = 9;
-    private static final int KEY_ACTION_SPLIT_SCREEN = 10;
+    private static final int KEY_ACTION_APP_SWITCH = 4;
+    private static final int KEY_ACTION_SCREEN_OFF = 5;
+    private static final int KEY_ACTION_SEARCH = 6;
+    private static final int KEY_ACTION_VOICE_SEARCH = 7;
+    private static final int KEY_ACTION_CAMERA = 8;
+    private static final int KEY_ACTION_LAST_APP = 9;
+    private static final int KEY_ACTION_SINGLE_HAND_RIGHT = 10;
+    private static final int KEY_ACTION_SINGLE_HAND_LEFT = 11;
+    private static final int KEY_ACTION_SPLIT_SCREEN = 12;
 
     // Special values, used internal only.
-    private static final int KEY_ACTION_HOME = 11;
+    private static final int KEY_ACTION_HOME = 1;
 
     // OneHandMode requirements
     private static final String LEFT = "left";
@@ -1927,6 +1928,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         sendCloseSystemWindows();
         Intent intent = new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA);
         startActivityAsUser(intent, UserHandle.CURRENT_OR_SELF);
+    }
+
+    private void screenOff() {
+        mPowerManager.goToSleep(SystemClock.uptimeMillis());
     }
 
     /**
@@ -4057,6 +4062,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     break;
                 case KEY_ACTION_SPLIT_SCREEN:
                     toggleSplitScreen();
+                    break;
+                case KEY_ACTION_SCREEN_OFF:
+                    screenOff();
                     break;
                 case KEY_ACTION_HOME:
                     launchHomeFromHotKey();
