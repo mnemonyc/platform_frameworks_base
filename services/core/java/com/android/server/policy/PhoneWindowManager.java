@@ -2630,7 +2630,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     Settings.System.VOLUME_ROCKER_MUSIC_CONTROLS, 0, UserHandle.USER_CURRENT) == 1);
 
             mHomeWakeScreen = (Settings.System.getIntForUser(resolver,
-                    Settings.System.HOME_WAKE_SCREEN, 1, UserHandle.USER_CURRENT) != 0) &&
+                    Settings.System.HOME_WAKE_SCREEN, 1, UserHandle.USER_CURRENT) == 1) &&
                     ((mDeviceHardwareWakeKeys & KEY_MASK_HOME) != 0);
             mBackWakeScreen = (Settings.System.getIntForUser(resolver,
                     Settings.System.BACK_WAKE_SCREEN, 0, UserHandle.USER_CURRENT) == 1) &&
@@ -4273,7 +4273,34 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                             || doubleTapBehavior == KEY_ACTION_SPLIT_SCREEN
                             || pressBehavior == KEY_ACTION_LAST_APP
                             || longPressBehavior == KEY_ACTION_LAST_APP
-                            || doubleTapBehavior == KEY_ACTION_LAST_APP) {
+                            || doubleTapBehavior == KEY_ACTION_LAST_APP
+                            || pressBehavior == KEY_ACTION_HOME
+                            || longPressBehavior == KEY_ACTION_HOME
+                            || doubleTapBehavior == KEY_ACTION_HOME
+                            || pressBehavior == KEY_ACTION_MENU
+                            || longPressBehavior == KEY_ACTION_MENU
+                            || doubleTapBehavior == KEY_ACTION_MENU
+                            || pressBehavior == KEY_ACTION_BACK
+                            || longPressBehavior == KEY_ACTION_BACK
+                            || doubleTapBehavior == KEY_ACTION_BACK
+                            || pressBehavior == KEY_ACTION_SCREEN_OFF
+                            || longPressBehavior == KEY_ACTION_SCREEN_OFF
+                            || doubleTapBehavior == KEY_ACTION_SCREEN_OFF
+                            || pressBehavior == KEY_ACTION_SEARCH
+                            || longPressBehavior == KEY_ACTION_SEARCH
+                            || doubleTapBehavior == KEY_ACTION_SEARCH
+                            || pressBehavior == KEY_ACTION_VOICE_SEARCH
+                            || longPressBehavior == KEY_ACTION_VOICE_SEARCH
+                            || doubleTapBehavior == KEY_ACTION_VOICE_SEARCH
+                            || pressBehavior == KEY_ACTION_CAMERA
+                            || longPressBehavior == KEY_ACTION_CAMERA
+                            || doubleTapBehavior == KEY_ACTION_CAMERA
+                            || pressBehavior == KEY_ACTION_SINGLE_HAND_RIGHT
+                            || longPressBehavior == KEY_ACTION_SINGLE_HAND_RIGHT
+                            || doubleTapBehavior == KEY_ACTION_SINGLE_HAND_RIGHT
+                            || pressBehavior == KEY_ACTION_SINGLE_HAND_LEFT
+                            || longPressBehavior == KEY_ACTION_SINGLE_HAND_LEFT
+                            || doubleTapBehavior == KEY_ACTION_SINGLE_HAND_LEFT) {
                     preloadRecentApps();
                 } else if (keyCode != KeyEvent.KEYCODE_HOME) {
                     handlePressOnKeyCode(keyCode);
