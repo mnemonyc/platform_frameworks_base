@@ -42,6 +42,8 @@
   <java-symbol type="integer" name="config_pressOnHardwareAppSwitchBehavior" />
   <java-symbol type="integer" name="config_pressOnHardwareBackBehavior" />
   <java-symbol type="integer" name="config_pressOnHardwareMenuBehavior" />
+  <java-symbol type="integer" name="config_pressOnHardwareAssistBehavior" />
+  <java-symbol type="integer" name="config_pressOnHardwareCameraBehavior" />
   <java-symbol type="integer" name="config_doubleTapOnHardwareHomeBehavior" />
   <java-symbol type="integer" name="config_doubleTapOnHardwareMenuBehavior" />
   <java-symbol type="integer" name="config_doubleTapOnHardwareBackBehavior" />

@@ -4135,6 +4135,14 @@ public final class Settings {
         public static final String KEY_BACK_DOUBLE_TAP_ACTION = "key_back_double_tap_action";
 
         /**
+         * Action to perform when the assist key is pressed.
+         * (Default can be configured via config_pressOnHardwareCameraBehavior)
+         * (See KEY_HOME_LONG_PRESS_ACTION for valid values)
+         * @hide
+         */
+        public static final String KEY_ASSIST_ACTION = "key_assist_action";
+
+        /**
          * Action to perform when the assist key is long-pressed.
          * (Default can be configured via config_longPressOnHardwareAssistBehavior)
          * (See KEY_HOME_LONG_PRESS_ACTION for valid values)
@@ -4173,6 +4181,14 @@ public final class Settings {
          * @hide
          */
         public static final String KEY_APP_SWITCH_DOUBLE_TAP_ACTION = "key_app_switch_double_tap_action";
+
+        /**
+         * Action to perform when the camera key is pressed.
+         * (Default can be configured via config_pressOnHardwareCameraBehavior)
+         * (See KEY_HOME_LONG_PRESS_ACTION for valid values)
+         * @hide
+         */
+        public static final String KEY_CAMERA_ACTION = "key_camera_action";
 
         /**
          * Action to perform when the app switch key is long-pressed.
