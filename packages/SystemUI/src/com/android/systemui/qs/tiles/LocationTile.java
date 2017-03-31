@@ -102,7 +102,7 @@ public class LocationTile extends QSTile<QSTile.State> {
     }
 
     @Override
-    protected void handleClick() {
+    protected void handleLongClick() {
         mShowingDetail = true;
         mAnimationList.clear();
         MetricsLogger.action(mContext, getMetricsCategory());
@@ -113,8 +113,18 @@ public class LocationTile extends QSTile<QSTile.State> {
     }
 
     @Override
+    protected void handleClick() {
+        MetricsLogger.action(mContext, getMetricsCategory());
+        if (!mController.isLocationEnabled()) {
+            mController.setLocationEnabled(true);
+        } else {
+            mController.setLocationEnabled(false);
+        }
+    }
+
+    @Override
     public Intent getLongClickIntent() {
-        return new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+        return null;
     }
 
     @Override

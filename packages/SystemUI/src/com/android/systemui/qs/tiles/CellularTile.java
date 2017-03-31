@@ -81,11 +81,21 @@ public class CellularTile extends QSTile<QSTile.SignalState> {
 
     @Override
     public Intent getLongClickIntent() {
-        return CELLULAR_SETTINGS;
+        return null;
     }
 
     @Override
     protected void handleClick() {
+        MetricsLogger.action(mContext, getMetricsCategory());
+        if (mDataController.isMobileDataSupported()) {
+            mDataController.setMobileDataEnabled(!mDataController.isMobileDataEnabled());
+        } else {
+            mHost.startActivityDismissingKeyguard(CELLULAR_SETTINGS);
+        }
+    }
+
+    @Override
+    protected void handleLongClick() {
         MetricsLogger.action(mContext, getMetricsCategory());
         if (mDataController.isMobileDataSupported()) {
             showDetail(true);
