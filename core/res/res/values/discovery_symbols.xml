@@ -78,4 +78,6 @@
 
   <!-- Doze invert -->
   <java-symbol type="bool" name="config_invert_colors_on_doze" />
+
+  <java-symbol type="integer" name="config_deviceHardwareWakeKeys" />
 </resources>
