@@ -6581,6 +6581,12 @@ public final class Settings {
         public static final String WAKE_GESTURE_ENABLED = "wake_gesture_enabled";
 
         /**
+         * Advanced Quick Settings
+         * @hide
+         */
+        public static final String QS_ADVANCED = "qs_advanced";
+
+        /**
          * Whether the device should doze if configured.
          * @hide
          */

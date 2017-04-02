@@ -19,9 +19,15 @@ package com.android.systemui.qs.tiles;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothProfile;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.ContentObserver;
+import android.net.Uri;
+import android.os.Handler;
+import android.os.UserHandle;
 import android.provider.Settings;
+import android.provider.Settings.Secure;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,19 +92,42 @@ public class BluetoothTile extends QSTile<QSTile.BooleanState>  {
     }
 
     @Override
+    public Intent startBtSettings() {
+        return new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
+    }
+
+    @Override
     protected void handleLongClick() {
-        if (!mController.canConfigBluetooth()) {
-            mHost.startActivityDismissingKeyguard(new Intent(Settings.ACTION_BLUETOOTH_SETTINGS));
+        boolean mAdvancedQS = isAdvancedQsEnabled();
+        if (mAdvancedQS) {
+            if (!mController.canConfigBluetooth()) {
+                mHost.startActivityDismissingKeyguard(new Intent(Settings.ACTION_BLUETOOTH_SETTINGS));
+            } else {
+            showDetail(true);
+            }
         } else {
-        showDetail(true);
+            startBtSettings();
         }
     }
 
     @Override
     protected void handleClick() {
-        final boolean isEnabled = (Boolean)mState.value;
-        MetricsLogger.action(mContext, getMetricsCategory(), !isEnabled);
-        mController.setBluetoothEnabled(!isEnabled);
+        boolean mAdvancedQS = isAdvancedQsEnabled();
+        if (mAdvancedQS) {
+            final boolean isEnabled = (Boolean)mState.value;
+            MetricsLogger.action(mContext, getMetricsCategory(), !isEnabled);
+            mController.setBluetoothEnabled(!isEnabled);
+        } else {
+            if (!mController.canConfigBluetooth()) {
+                mHost.startActivityDismissingKeyguard(new Intent(Settings.ACTION_BLUETOOTH_SETTINGS));
+                return;
+            }
+            showDetail(true);
+            if (!mState.value) {
+                mState.value = true;
+                mController.setBluetoothEnabled(true);
+            }
+        }
     }
 
     @Override
@@ -159,6 +188,11 @@ public class BluetoothTile extends QSTile<QSTile.BooleanState>  {
                 R.string.accessibility_quick_settings_open_settings, getTileLabel());
         state.expandedAccessibilityClassName = Button.class.getName();
         state.minimalAccessibilityClassName = Switch.class.getName();
+    }
+    
+    public boolean isAdvancedQsEnabled() {
+        return Settings.Secure.getInt(mContext.getContentResolver(),
+            Settings.Secure.QS_ADVANCED, 0) == 1;
     }
 
     @Override

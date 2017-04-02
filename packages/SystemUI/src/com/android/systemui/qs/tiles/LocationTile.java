@@ -17,11 +17,16 @@
 
 package com.android.systemui.qs.tiles;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.database.ContentObserver;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Handler;
+import android.os.UserHandle;
 import android.provider.Settings;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,6 +75,11 @@ public class LocationTile extends QSTile<QSTile.State> {
         mController = host.getLocationController();
     }
 
+    public boolean isAdvancedQsEnabled() {
+        return Settings.Secure.getInt(mContext.getContentResolver(),
+            Settings.Secure.QS_ADVANCED, 0) == 1;
+    }
+
     @Override
     public int getMetricsCategory() {
         return MetricsEvent.QS_LOCATION;
@@ -102,23 +112,44 @@ public class LocationTile extends QSTile<QSTile.State> {
     }
 
     @Override
+    public Intent startLocationSettings() {
+        return new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+    }
+
+    @Override
     protected void handleLongClick() {
-        mShowingDetail = true;
-        mAnimationList.clear();
-        MetricsLogger.action(mContext, getMetricsCategory());
-        if (!mController.isLocationEnabled()) {
-            mController.setLocationEnabled(true);
+        boolean mAdvancedQS = isAdvancedQsEnabled();
+        if (mAdvancedQS) {
+            mShowingDetail = true;
+            mAnimationList.clear();
+            MetricsLogger.action(mContext, getMetricsCategory());
+            if (!mController.isLocationEnabled()) {
+                mController.setLocationEnabled(true);
+            }
+            showDetail(true);
+        } else {
+            startLocationSettings();
         }
-        showDetail(true);
     }
 
     @Override
     protected void handleClick() {
-        MetricsLogger.action(mContext, getMetricsCategory());
-        if (!mController.isLocationEnabled()) {
-            mController.setLocationEnabled(true);
+        boolean mAdvancedQS = isAdvancedQsEnabled();
+        if (mAdvancedQS) {
+            MetricsLogger.action(mContext, getMetricsCategory());
+            if (!mController.isLocationEnabled()) {
+                mController.setLocationEnabled(true);
+            } else {
+                mController.setLocationEnabled(false);
+            }
         } else {
-            mController.setLocationEnabled(false);
+            mShowingDetail = true;
+            mAnimationList.clear();
+            MetricsLogger.action(mContext, getMetricsCategory());
+            if (!mController.isLocationEnabled()) {
+                mController.setLocationEnabled(true);
+            }
+            showDetail(true);
         }
     }
 
