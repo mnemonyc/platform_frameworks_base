@@ -266,8 +266,6 @@ public class BatteryMeterDrawable extends Drawable implements
         mLevel = level;
         mPluggedIn = pluggedIn;
 
-        mCharging = charging;
-
         if (mStyle == BATTERY_STYLE_CIRCLE || mStyle == BATTERY_STYLE_FULL_CIRCLE || mStyle == BATTERY_STYLE_BIGCIRCLE) {
             animateCircleBattery(level, pluggedIn, charging);
         }
@@ -461,7 +459,6 @@ public class BatteryMeterDrawable extends Drawable implements
             updateChargeColor();
             updateForceChargeBatteryText();
             updateCustomChargingSymbol();
-            updateBatterySaverWarningColor();
             postInvalidate();
         }
     }

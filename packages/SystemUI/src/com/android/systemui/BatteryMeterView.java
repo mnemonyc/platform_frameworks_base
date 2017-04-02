@@ -26,16 +26,18 @@ import android.widget.ImageView;
 
 import com.android.systemui.statusbar.phone.StatusBarIconController;
 import com.android.systemui.statusbar.policy.BatteryController;
+import com.android.systemui.tuner.TunerService;
 
 public class BatteryMeterView extends ImageView implements
-        BatteryController.BatteryStateChangeCallback {
+        BatteryController.BatteryStateChangeCallback, TunerService.Tunable {
 
     private static final String STATUS_BAR_BATTERY_STYLE =
             Settings.Secure.STATUS_BAR_BATTERY_STYLE;
     private static final String STATUS_BAR_CHARGE_COLOR =
             Settings.Secure.STATUS_BAR_CHARGE_COLOR;
 
-    private final BatteryMeterDrawable mDrawable;
+    private BatteryMeterDrawable mDrawable;
+    private final String mSlotBattery;
     private BatteryController mBatteryController;
 
     private final Context mContext;
@@ -52,6 +54,8 @@ public class BatteryMeterView extends ImageView implements
         super(context, attrs, defStyle);
         mDrawable = new BatteryMeterDrawable(context, new Handler());
 
+        mSlotBattery = context.getString(
+                com.android.internal.R.string.status_bar_battery);
         setImageDrawable(mDrawable);
 
         // The BatteryMeterDrawable wants to use the clear xfermode,
@@ -80,6 +84,8 @@ public class BatteryMeterView extends ImageView implements
         super.onAttachedToWindow();
         mBatteryController.addStateChangedCallback(this);
         mDrawable.startListening();
+        TunerService.get(getContext()).addTunable(this, StatusBarIconController.ICON_BLACKLIST,
+                STATUS_BAR_BATTERY_STYLE, STATUS_BAR_CHARGE_COLOR);
     }
 
     @Override
@@ -87,6 +93,7 @@ public class BatteryMeterView extends ImageView implements
         super.onDetachedFromWindow();
         mBatteryController.removeStateChangedCallback(this);
         mDrawable.stopListening();
+        TunerService.get(getContext()).removeTunable(this);
     }
 
     @Override
@@ -135,11 +142,11 @@ public class BatteryMeterView extends ImageView implements
         if (style == BatteryMeterDrawable.BATTERY_STYLE_TEXT || style == BatteryMeterDrawable.BATTERY_STYLE_HIDDEN) {
             return;
         } else {
-        mDrawable = new BatteryMeterDrawable(mContext, new Handler(), style);
-        setImageDrawable(mDrawable);
-        setVisibility(View.VISIBLE);
-        restoreDrawableAttributes();
-        requestLayout();
+            mDrawable = new BatteryMeterDrawable(mContext, new Handler(), style);
+            setImageDrawable(mDrawable);
+            setVisibility(View.VISIBLE);
+            restoreDrawableAttributes();
+            requestLayout();
         }
     }
 
