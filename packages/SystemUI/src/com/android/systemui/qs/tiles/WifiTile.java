@@ -101,12 +101,12 @@ public class WifiTile extends QSTile<QSTile.SignalState> {
 
     @Override
     public Intent getLongClickIntent() {
-        return null;
-    }
-
-    @Override
-    public Intent startWifiSettings() {
-        return WIFI_SETTINGS;
+        boolean mAdvancedQS = isAdvancedQsEnabled();
+        if (!mAdvancedQS) {
+            return WIFI_SETTINGS;
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -147,7 +147,7 @@ public class WifiTile extends QSTile<QSTile.SignalState> {
                 showDetail(true);
             }
         } else {
-            startWifiSettings();
+            getLongClickIntent();
         }
     }
 

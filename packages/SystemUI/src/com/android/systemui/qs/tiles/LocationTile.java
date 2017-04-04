@@ -112,11 +112,6 @@ public class LocationTile extends QSTile<QSTile.State> {
     }
 
     @Override
-    public Intent startLocationSettings() {
-        return new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-    }
-
-    @Override
     protected void handleLongClick() {
         boolean mAdvancedQS = isAdvancedQsEnabled();
         if (mAdvancedQS) {
@@ -128,7 +123,7 @@ public class LocationTile extends QSTile<QSTile.State> {
             }
             showDetail(true);
         } else {
-            startLocationSettings();
+            getLongClickIntent();
         }
     }
 
@@ -155,7 +150,12 @@ public class LocationTile extends QSTile<QSTile.State> {
 
     @Override
     public Intent getLongClickIntent() {
-        return null;
+        boolean mAdvancedQS = isAdvancedQsEnabled();
+        if (!mAdvancedQS) {
+            return new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+        } else {
+            return null;
+        }
     }
 
     @Override

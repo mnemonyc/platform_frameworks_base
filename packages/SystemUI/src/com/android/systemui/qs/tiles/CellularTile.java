@@ -87,12 +87,12 @@ public class CellularTile extends QSTile<QSTile.SignalState> {
 
     @Override
     public Intent getLongClickIntent() {
-        return null;
-    }
-
-    @Override
-    public Intent startCellularSettings() {
-        return CELLULAR_SETTINGS;
+        boolean mAdvancedQS = isAdvancedQsEnabled();
+        if (!mAdvancedQS) {
+            return CELLULAR_SETTINGS;
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -125,7 +125,7 @@ public class CellularTile extends QSTile<QSTile.SignalState> {
                 mHost.startActivityDismissingKeyguard(CELLULAR_SETTINGS);
             }
         } else {
-            startCellularSettings();
+            getLongClickIntent();
         }
     }
 

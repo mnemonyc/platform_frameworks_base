@@ -88,12 +88,12 @@ public class BluetoothTile extends QSTile<QSTile.BooleanState>  {
 
     @Override
     public Intent getLongClickIntent() {
-        return null;
-    }
-
-    @Override
-    public Intent startBtSettings() {
-        return new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
+        boolean mAdvancedQS = isAdvancedQsEnabled();
+        if (!mAdvancedQS) {
+            return new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -106,7 +106,7 @@ public class BluetoothTile extends QSTile<QSTile.BooleanState>  {
             showDetail(true);
             }
         } else {
-            startBtSettings();
+            getLongClickIntent();
         }
     }
 
