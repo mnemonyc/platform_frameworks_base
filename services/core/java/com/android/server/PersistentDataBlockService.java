@@ -88,9 +88,6 @@ public class PersistentDataBlockService extends SystemService {
     @GuardedBy("mLock")
     private boolean mIsWritable = true;
 
-    @GuardedBy("mLock")
-    private boolean mIsWritable = true;
-
     public PersistentDataBlockService(Context context) {
         super(context);
         mContext = context;
