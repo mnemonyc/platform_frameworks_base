@@ -561,6 +561,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     // until the key is released. This is required since the beep sound is produced
     // post keypressed.
     boolean mVolumeWakeTriggered;
+    boolean mHomeWakeTriggered;
 
     int mDeviceHardwareKeys;
 
@@ -3838,10 +3839,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
      * @author Carlo Savignano
      */
     private void setKeyCodePressed(final int keyCode, final boolean pressed) {
-	Log.d("KeyHomeWake", "4 keyCode:"+keyCode);
         switch (keyCode) {
             case KeyEvent.KEYCODE_HOME:
-		Log.d("KeyHomeWake", "4a keyCode:home");
                 mHardwareHomePressed = pressed;
                 break;
             case KeyEvent.KEYCODE_BACK:
@@ -4066,10 +4065,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private void runKeyCodeBehaviorAction(final int keyCode, final int behavior) {
         final boolean defaultBehavior = behavior == KEY_ACTION_DEFAULT;
         if (defaultBehavior) {
-	Log.d("KeyHomeWake", "default behaviour");
             switch(keyCode) {
                 case KeyEvent.KEYCODE_HOME:
-		    Log.d("KeyHomeWake", "3 keyCode:"+keyCode);
                     launchHomeFromHotKey();
                     break;
                 case KeyEvent.KEYCODE_BACK:
@@ -4089,7 +4086,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     break;
             }
         } else {
-		Log.d("KeyHomeWake", "custom behaviour");
             switch(behavior) {
                 case KEY_ACTION_NOTHING:
                     break;
@@ -4210,7 +4206,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         if (isKeyCodeSupported(keyCode) && !virtualKey && (!virtualHardKey || !navBarKey)) {
             if ((menuKey || appSwitchKey) && keyguardOn) {
                 // Don't handle the key.
-		Log.d("KeyHomeWake","don't handle the home key");
                 return -1;
             }
 
@@ -4350,8 +4345,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         // can never break it, although if keyguard is on, we do let
         // it handle it, because that gives us the correct 5 second
         // timeout.
-	Log.d("KeyHomeWake", "2 keyCode:"+keyCode);
-
 
         if (keyCode == KeyEvent.KEYCODE_HOME) {
 
@@ -4715,7 +4708,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
         // Specific device key handling
         if (dispatchKeyToKeyHandlers(event)) {
-		Log.d("KeyHomeWake", "dispatchKeyToKeyHandlers return -1");
             return -1;
         }
 
@@ -4760,7 +4752,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     }
 
     private boolean dispatchKeyToKeyHandlers(KeyEvent event) {
-		Log.d("KeyHomeWake", "dispatchKeyToKeyHandlers");
         for (DeviceKeyHandler handler : mDeviceKeyHandlers) {
             try {
                 if (DEBUG_INPUT) {
@@ -4789,8 +4780,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     + ", repeatCount=" + event.getRepeatCount()
                     + ", policyFlags=" + policyFlags);
         }
-
-		Log.d("KeyHomeWake", "dispatchUnhandledKey");
 
         KeyEvent fallbackEvent = null;
         if ((event.getFlags() & KeyEvent.FLAG_FALLBACK) == 0) {
@@ -4847,7 +4836,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     }
 
     private boolean interceptFallback(WindowState win, KeyEvent fallbackEvent, int policyFlags) {
-	Log.d("KeyHomeWake", "interceptFallback");
         int actions = interceptKeyBeforeQueueing(fallbackEvent, policyFlags);
         if ((actions & ACTION_PASS_TO_USER) != 0) {
             long delayMillis = interceptKeyBeforeDispatching(
@@ -5056,7 +5044,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
      * given the situation with the keyguard.
      */
     void launchHomeFromHotKey(final boolean awakenFromDreams, final boolean respectKeyguard) {
-	Log.d("KeyHomeWake", "launchHomeFromHotKey");
         if (respectKeyguard) {
             if (isKeyguardShowingAndNotOccluded()) {
                 // don't launch home if keyguard showing
@@ -6995,35 +6982,25 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     + ", policyFlags =" + Integer.toHexString(policyFlags));
         }
 
-	Log.d("KeyHomeWake", "interceptKeyBeforeQueueing(): event =" + event.toString()
-                    + ", interactive =" + interactive + ", keyguardActive =" + keyguardActive
-                    + ", policyFlags =" + Integer.toHexString(policyFlags));	
 
         /**
          * Custom policy to hanlde edge cases when sending an ex novo virtual async input event.
          * @author Carlo Savignano
          */
 
-
-	Log.d("KeyHomeWake", "isKeyCodeSupported =" + isKeyCodeSupported(keyCode)
-                    + ", !virtualKey =" + !virtualKey + ", (!virtualHardKey || !navBarKey)" + (!virtualHardKey || !navBarKey));
-
         if (isKeyCodeSupported(keyCode) && !virtualKey && (!virtualHardKey || !navBarKey)) {
             if (mNavBarEnabled && !navBarKey) {
-		Log.d("KeyHomeWake","navbar");
                 // Don't allow key events from hw keys when navbar is enabled.
                 return 0;
             } else if (!interactive) {
-		Log.d("KeyHomeWake","not interactive");
-                // Ensure nav keys are handled on full interactive screen only.
-                if (keyCode==KeyEvent.KEYCODE_HOME){
-		}else{
+               
+		// Hack to intercept home key that is interactive=false and 
+                if (keyCode!=KeyEvent.KEYCODE_HOME){ 
+			// Ensure nav keys are handled on full interactive screen only.
 			return 0;
 		}
             } else if (interactive) {
-		Log.d("KeyHomeWake","interactive");
                 if (!down) {
-			Log.d("KeyHomeWake","UP");
                     // Make sure we consume hw key events properly. Discard them
                     // here if the event is already been consumed. This case can
                     // happen when we send virtual key events and the virtual
@@ -7031,21 +7008,15 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     // handling twice an action up event.
                     final boolean consumed = isKeyCodeConsumed(keyCode);
                     if (consumed) {
-			Log.d("KeyHomeWake","consumed");
                         if (DEBUG_INPUT) {
                             Log.d(TAG, "interceptKeyBeforeQueueing(): key policy: event already consumed, discard hw event.");
                         }
                         setKeyCodeConsumed(keyCode, !consumed);
                         return 0;
-                    }else{
-			Log.d("KeyHomeWake","not consumed");
-		    }
+                    }
                 } else {
-		    Log.d("KeyHomeWake","DOWN");
                     hapticFeedbackRequested = true;
                 }
-            } else {
-		Log.d("KeyHomeWake","not defined");
             }
         }
 
@@ -7056,7 +7027,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         int result;
         boolean isWakeKey = (policyFlags & WindowManagerPolicy.FLAG_WAKE) != 0
                 || event.isWakeKey() || isVolumeRockerWake;
-	Log.d("KeyHomeWake","1 isWakeKey:"+isWakeKey);
 
 
         if (interactive || (isInjected && !isWakeKey)) {
@@ -7121,7 +7091,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         }
 
         // Handle special keys.
-	Log.d("KeyHomeWake", "keycode trovato:"+keyCode);
         switch (keyCode) {
 
             case KeyEvent.KEYCODE_BACK: {
@@ -7152,7 +7121,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             case KeyEvent.KEYCODE_VOLUME_MUTE: {
                 // Eat all down & up keys when using volume wake.
                 // This disables volume control, music control, and "beep" on key up.
-		Log.d("KeyHomeWake", "premuto tasto volume");
 
                 if (isWakeKey && mVolumeRockerWake) {
                     mVolumeWakeTriggered = true;
@@ -7272,11 +7240,17 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             }
 
             case KeyEvent.KEYCODE_HOME:
-		Log.d("KeyHomeWake", "premuto home");
-                Log.d("KeyHomeWake", "down:"+down+" !interactive:"+interactive+" mHomeWakeScreen:"+mHomeWakeScreen );
                 if (down && !interactive && mHomeWakeScreen) {
-                    isWakeKey = true;
-		Log.d("KeyHomeWake", "isWakeKey true");
+                   isWakeKey = true;
+                }
+
+		if (isWakeKey && down && !interactive ) {
+                    mHomeWakeTriggered = true;
+                    break;
+                } else if (mHomeWakeTriggered && !down) {
+                    result &= ~ACTION_PASS_TO_USER;
+                    mHomeWakeTriggered = false;
+                    break;
                 }
                 break;
 
@@ -7318,7 +7292,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             }
 
             case KeyEvent.KEYCODE_POWER: {
-		Log.d("KeyHomeWake", "premuto power");
                 if (mTopFullscreenOpaqueWindowState != null
                         && (mTopFullscreenOpaqueWindowState.getAttrs().privateFlags
                                 & WindowManager.LayoutParams.PRIVATE_FLAG_PREVENT_POWER_KEY) != 0
@@ -7526,7 +7499,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 }
 
 	    case KeyEvent.KEYCODE_HOME:
-		Log.d("KeyHomeWake","premuto home a schermo spento..mHomeWakeScreen:"+mHomeWakeScreen);
                 if (mHomeWakeScreen) {
                     return true;
                 }
