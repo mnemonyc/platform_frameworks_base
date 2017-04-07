@@ -4345,7 +4345,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         // can never break it, although if keyguard is on, we do let
         // it handle it, because that gives us the correct 5 second
         // timeout.
-
         if (keyCode == KeyEvent.KEYCODE_HOME) {
 
             // If we have released the home key, and didn't do anything else
@@ -6963,7 +6962,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         final boolean interactive = (policyFlags & FLAG_INTERACTIVE) != 0;
         final boolean isInjected = (policyFlags & WindowManagerPolicy.FLAG_INJECTED) != 0;
 
-
         // If screen is off then we treat the case where the keyguard is open but hidden
         // the same as if it were open and in front.
         // This will prevent any keys other than the power button from waking the screen
@@ -6982,12 +6980,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     + ", policyFlags =" + Integer.toHexString(policyFlags));
         }
 
-
         /**
          * Custom policy to hanlde edge cases when sending an ex novo virtual async input event.
          * @author Carlo Savignano
          */
-
         if (isKeyCodeSupported(keyCode) && !virtualKey && (!virtualHardKey || !navBarKey)) {
             if (mNavBarEnabled && !navBarKey) {
                 // Don't allow key events from hw keys when navbar is enabled.
@@ -7027,8 +7023,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         int result;
         boolean isWakeKey = (policyFlags & WindowManagerPolicy.FLAG_WAKE) != 0
                 || event.isWakeKey() || isVolumeRockerWake;
-
-
         if (interactive || (isInjected && !isWakeKey)) {
             // When the device is interactive or the key is injected pass the
             // key to the application.
@@ -7092,7 +7086,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
         // Handle special keys.
         switch (keyCode) {
-
             case KeyEvent.KEYCODE_BACK: {
                 if (down) {
                     mBackKeyHandled = false;
@@ -7121,7 +7114,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             case KeyEvent.KEYCODE_VOLUME_MUTE: {
                 // Eat all down & up keys when using volume wake.
                 // This disables volume control, music control, and "beep" on key up.
-
                 if (isWakeKey && mVolumeRockerWake) {
                     mVolumeWakeTriggered = true;
                     break;
@@ -7253,7 +7245,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     break;
                 }
                 break;
-
             case KeyEvent.KEYCODE_ENDCALL: {
                 result &= ~ACTION_PASS_TO_USER;
                 if (down) {
@@ -7528,8 +7519,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 return mAssistWakeScreen;
             case KeyEvent.KEYCODE_APP_SWITCH:
                 return mAppSwitchWakeScreen;
-	    
-        }
+         }
         return true;
     }
 
