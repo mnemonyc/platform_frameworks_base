@@ -131,43 +131,8 @@ public class CallbackHandler extends Handler implements EmergencyListener, Signa
             public void run() {
                 for (SignalCallback signalCluster : mSignalCallbacks) {
                     signalCluster.setMobileDataIndicators(statusIcon, qsIcon, statusType, qsType,
-<<<<<<< HEAD
                             activityIn, activityOut, typeContentDescription, description, isWide,
                             subId, roaming, isMobileIms);
-=======
-                            activityIn, activityOut, dataActivityId, mobileActivityId,
-                            stackedDataIcon, stackedVoiceIcon,
-                            typeContentDescription, description, isWide, subId);
-                }
-            }
-        });
-    }
-
-    @Override
-    public void setMobileDataIndicators(final IconState statusIcon, final IconState qsIcon,
-            final int statusType, final int qsType, final boolean activityIn,
-            final boolean activityOut, final int dataActivityId, final int mobileActivityId,
-            final int stackedDataIcon, final int stackedVoiceIcon,
-            final String typeContentDescription, final String description, final boolean isWide,
-            final int subId, final int dataNetworkTypeInRoamingId, final int embmsIconId) {
-        post(new Runnable() {
-            @Override
-            public void run() {
-                for (SignalCallback signalCluster : mSignalCallbacks) {
-                    if (signalCluster instanceof SignalCallbackExtended) {
-                        ((SignalCallbackExtended)signalCluster).setMobileDataIndicators(
-                                statusIcon, qsIcon, statusType, qsType, activityIn,
-                                activityOut, dataActivityId, mobileActivityId,
-                                stackedDataIcon, stackedVoiceIcon, typeContentDescription,
-                                description, isWide, subId, dataNetworkTypeInRoamingId,
-                                embmsIconId);
-                    } else {
-                        signalCluster.setMobileDataIndicators(statusIcon, qsIcon, statusType,
-                                qsType, activityIn, activityOut, dataActivityId,
-                                mobileActivityId, stackedDataIcon, stackedVoiceIcon,
-                                typeContentDescription, description, isWide, subId);
-                    }
->>>>>>> parent of 4404f4a... IMS: Show VoWIFI icon based on IMS capabilities.
                 }
             }
         });
