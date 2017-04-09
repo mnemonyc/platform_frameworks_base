@@ -88,13 +88,6 @@ public class QSPanel extends LinearLayout implements Tunable, Callback {
 
         setOrientation(VERTICAL);
 
-        if(MobileSignalController.isCarrierOneSupported()) {
-            mSimSwitcherView = LayoutInflater.from(context).inflate(
-                R.layout.sim_switcher, this, false);
-            addView(mSimSwitcherView);
-            mSimSwitchController = new SimSwitchController(getContext(), mSimSwitcherView, this);
-        }
-
         mBrightnessView = LayoutInflater.from(context).inflate(
                 R.layout.quick_settings_brightness_dialog, this, false);
         addView(mBrightnessView);
@@ -528,6 +521,10 @@ public class QSPanel extends LinearLayout implements Tunable, Callback {
 
     public QSFooter getFooter() {
         return mFooter;
+    }
+
+    public void showDeviceMonitoringDialog() {
+        mFooter.showDeviceMonitoringDialog();
     }
 
     private class H extends Handler {

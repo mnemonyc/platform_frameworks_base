@@ -31,6 +31,8 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.Matchers.eq;
+
 @SmallTest
 public class CallbackHandlerTest extends AndroidTestCase {
 
@@ -102,8 +104,9 @@ public class CallbackHandlerTest extends AndroidTestCase {
         int qsType = R.drawable.ic_qs_signal_1x;
         boolean wide = true;
         int subId = 5;
-        mHandler.setMobileDataIndicators(status, qs, type, qsType, in, out, 0, 0, 0, 0,
-                typeDescription, description, wide, subId);
+        boolean roaming = true;
+        mHandler.setMobileDataIndicators(status, qs, type, qsType, in, out, typeDescription,
+                description, wide, subId, roaming);
         waitForCallbacks();
 
         ArgumentCaptor<IconState> statusArg = ArgumentCaptor.forClass(IconState.class);
@@ -118,12 +121,8 @@ public class CallbackHandlerTest extends AndroidTestCase {
         ArgumentCaptor<Integer> subIdArg = ArgumentCaptor.forClass(Integer.class);
         Mockito.verify(mSignalCallback).setMobileDataIndicators(statusArg.capture(),
                 qsArg.capture(), typeIconArg.capture(), qsTypeIconArg.capture(), inArg.capture(),
-                outArg.capture(), ArgumentCaptor.forClass(Integer.class).capture(),
-                ArgumentCaptor.forClass(Integer.class).capture(),
-                ArgumentCaptor.forClass(Integer.class).capture(),
-                ArgumentCaptor.forClass(Integer.class).capture(),
-                typeContentArg.capture(), descArg.capture(), wideArg.capture(),
-                subIdArg.capture());
+                outArg.capture(), typeContentArg.capture(), descArg.capture(), wideArg.capture(),
+                subIdArg.capture(), eq(roaming));
         assertEquals(status, statusArg.getValue());
         assertEquals(qs, qsArg.getValue());
         assertEquals(type, (int) typeIconArg.getValue());
