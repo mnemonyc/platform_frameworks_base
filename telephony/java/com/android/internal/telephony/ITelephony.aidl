@@ -552,12 +552,6 @@ interface ITelephony {
      */
     void setCellInfoListRate(int rateInMillis);
 
-
-    /**
-     * Return if the current radio is LTE on GSM
-     */
-    int getLteOnGsmMode();
-
     /**
      * get default sim
      * @return sim id
@@ -996,11 +990,6 @@ interface ITelephony {
      * Get IMS Registration Status
      */
     boolean isImsRegistered();
-
-    /**
-     * Get IMS Registration Status using subId
-     */
-    boolean isImsRegisteredForSubscriber(int subId);
 
     /**
      * Returns the Status of Wi-Fi Calling

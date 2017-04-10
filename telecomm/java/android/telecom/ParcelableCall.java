@@ -187,6 +187,7 @@ public final class ParcelableCall implements Parcelable {
 
     /**
      * Returns an object for remotely communicating through the video call provider's binder.
+
      * @return The video call.
      */
     public VideoCallImpl getVideoCallImpl() {
