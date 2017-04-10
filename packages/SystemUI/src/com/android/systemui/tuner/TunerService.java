@@ -137,7 +137,7 @@ public class TunerService extends SystemUI {
         Uri uri = Settings.Secure.getUriFor(key);
         if (!mListeningUris.containsKey(uri)) {
             mListeningUris.put(uri, key);
-            mContentResolver.registerContentObserver(uri, true, mObserver, mCurrentUser);
+            mContentResolver.registerContentObserver(uri, false, mObserver, mCurrentUser);
         }
         // Send the first state.
         String value = Settings.Secure.getStringForUser(mContentResolver, key, mCurrentUser);
@@ -156,7 +156,7 @@ public class TunerService extends SystemUI {
         }
         mContentResolver.unregisterContentObserver(mObserver);
         for (Uri uri : mListeningUris.keySet()) {
-            mContentResolver.registerContentObserver(uri, true, mObserver, mCurrentUser);
+            mContentResolver.registerContentObserver(uri, false, mObserver, mCurrentUser);
         }
     }
 
