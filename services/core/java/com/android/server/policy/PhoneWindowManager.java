@@ -4322,7 +4322,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
          * @see #SUPPORTED_HARDWARE_KEY_CODE
          * @author Carlo Savignano
          */
-        if (isKeyCodeSupported(keyCode) && !virtualKey && (!virtualHardKey || !navBarKey) && !backKey) {
+        if (isKeyCodeSupported(keyCode) && !virtualKey && (!virtualHardKey || !navBarKey)) {
             if ((menuKey || appSwitchKey) && keyguardOn) {
                 // Don't handle the key.
                 return -1;
