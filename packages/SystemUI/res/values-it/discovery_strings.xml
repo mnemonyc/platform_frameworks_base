@@ -31,4 +31,11 @@
     <string name="quick_settings_location_high_accuracy_label">Alta precisione</string>
     <string name="quick_settings_location_off_label">Spento</string>
 
+        <!-- Sync QS tile -->
+    <string name="quick_settings_sync_label">Sincronizzazione</string>
+    <string name="accessibility_quick_settings_sync_off">Sincronizzazione disattivata</string>
+    <string name="accessibility_quick_settings_sync_on">Sincronizzazione attivata</string>
+    <string name="accessibility_quick_settings_sync_changed_off">Sincronizzazione spenta</string>
+    <string name="accessibility_quick_settings_sync_changed_on">Sincronizzazione attiva</string>
+
 </resources>
