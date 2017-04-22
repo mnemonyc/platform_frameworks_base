@@ -3938,6 +3938,12 @@ public final class Settings {
         public static final String THREE_FINGER_GESTURE = "three_finger_gesture";
 
         /**
+         * TEST for disable vibration on home button press
+         * @hide
+         */
+        public static final String BUTTON_VIBRATION_ENABLED = "button_vibration_enabled";
+
+        /**
          * Action to perform when the app switch key is long-pressed.
          * (Default can be configured via config_longPressOnHardwareCameraBehavior)
          * (See KEY_HOME_LONG_PRESS_ACTION for valid values)

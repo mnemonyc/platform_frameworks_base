@@ -886,6 +886,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private int mCurrentUserId;
     private boolean haveEnableGesture = false;
 
+    // Disable home press vibration
+    private boolean haveEnableButtonVibration = false;
+
     // Maps global key codes to the components that will handle them.
     private GlobalKeyManager mGlobalKeyManager;
 
@@ -2638,6 +2641,17 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         }
     }
 
+    // Disable home press vibration
+    private void enableButtonVibration(boolean enable){
+        if (enable) {
+            if (haveEnableButtonVibration) return;
+            haveEnableButtonVibration = true;
+        } else {
+            if (!haveEnableButtonVibration) return;
+            haveEnableButtonVibration = false;
+        }
+    }
+
     @Override
     public void setInitialDisplaySize(Display display, int width, int height, int density) {
         // This method might be called before the policy has been fully initialized
@@ -2805,10 +2819,15 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
             readConfigurationDependentBehaviors();
             
-	        //Three Finger Gesture
+	    //Three Finger Gesture
             boolean threeFingerGesture = Settings.System.getIntForUser(resolver,
                     Settings.System.THREE_FINGER_GESTURE, 0, UserHandle.USER_CURRENT) == 1;
             enableSwipeThreeFingerGesture(threeFingerGesture);
+
+            // Disable home press vibration
+            boolean buttonVibration = Settings.System.getIntForUser(resolver,
+                    Settings.System.BUTTON_VIBRATION_ENABLED, 0, UserHandle.USER_CURRENT) == 1;
+            enableButtonVibration(buttonVibration);
 
             // Configure rotation lock.
             int userRotation = Settings.System.getIntForUser(resolver,
@@ -7342,6 +7361,11 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             }
 
             case KeyEvent.KEYCODE_HOME:
+                // Disable home press vibration
+                if (down && interactive && haveEnableButtonVibration) {
+                   useHapticFeedback = false;
+                }
+                
                 if (down && !interactive && mHomeWakeScreen) {
                    isWakeKey = true;
                 }
@@ -7532,7 +7556,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
         if (useHapticFeedback) {
             performHapticFeedbackLw(null, HapticFeedbackConstants.VIRTUAL_KEY, false);
-        }
+	}
 
         if (isWakeKey) {
             wakeUp(event.getEventTime(), mAllowTheaterModeWakeFromKey, "android.policy:KEY",
