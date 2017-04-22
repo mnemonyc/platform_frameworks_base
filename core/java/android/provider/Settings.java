@@ -3970,7 +3970,7 @@ public final class Settings {
          * TEST for disable vibration on home button press
          * @hide
          */
-        public static final String BUTTON_VIBRATION_ENABLED = "button_vibration_enabled";
+        public static final String HOME_PRESS_VIBRATION = "home_press_vibration";
 
         /**
          * Action to perform when the app switch key is long-pressed.

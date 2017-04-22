@@ -1151,6 +1151,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.THREE_FINGER_GESTURE), false, this,
                     UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.HOME_PRESS_VIBRATION), false, this,
+                    UserHandle.USER_ALL);
             updateSettings();
         }
 
@@ -2826,7 +2829,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
             // Disable home press vibration
             boolean buttonVibration = Settings.System.getIntForUser(resolver,
-                    Settings.System.BUTTON_VIBRATION_ENABLED, 0, UserHandle.USER_CURRENT) == 1;
+                    Settings.System.HOME_PRESS_VIBRATION, 0, UserHandle.USER_CURRENT) == 1;
             enableButtonVibration(buttonVibration);
 
             // Configure rotation lock.
