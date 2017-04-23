@@ -33,6 +33,9 @@
   <!-- Whether notify fingerprint client of successful cancelled authentication -->
   <java-symbol type="bool" name="config_notifyClientOnFingerprintCancelSuccess" />
 
+  <!-- Wether device wants remove home press vibration -->
+  <java-symbol type="bool" name="config_removeHomePressVib" />
+
   <!-- Button Brightness -->
   <java-symbol type="integer" name="config_buttonBrightnessSettingMinimum" />
   <java-symbol type="integer" name="config_buttonBrightnessSettingMaximum" />

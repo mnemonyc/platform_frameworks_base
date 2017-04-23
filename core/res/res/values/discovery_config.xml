@@ -28,6 +28,9 @@
     <!-- Whether notify fingerprint client of successful cancelled authentication -->
     <bool name="config_notifyClientOnFingerprintCancelSuccess">false</bool>
 
+    <!-- Wether device wants remove home press vibration -->
+    <bool name="config_removeHomePressVib">false</bool>
+
     <!-- Minimum screen brightness setting allowed by the power manager.
        The user is forbidden from setting the brightness below this level. -->
     <integer name="config_buttonBrightnessSettingMinimum">10</integer>
