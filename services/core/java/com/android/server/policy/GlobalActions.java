@@ -279,6 +279,11 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
             actionsArray = mActions.split("\\|");
         }
 
+        
+        // Always add the power off and reboot option
+        mItems.add(new PowerAction());
+        mItems.add(new RebootAction());
+
         ArraySet<String> addedKeys = new ArraySet<String>();
         for (int i = 0; i < actionsArray.length; i++) {
             String actionKey = actionsArray[i];
@@ -287,9 +292,9 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                 continue;
             }
             if (GLOBAL_ACTION_KEY_POWER.equals(actionKey)) {
-                mItems.add(new PowerAction());
+                continue;
             } else if (GLOBAL_ACTION_KEY_REBOOT.equals(actionKey)) {
-                mItems.add(new RebootAction());
+                continue;
             } else if (GLOBAL_ACTION_KEY_SCREENSHOT.equals(actionKey)) {
                 mItems.add(getScreenshotAction());
             } else if (GLOBAL_ACTION_KEY_AIRPLANE.equals(actionKey)) {
