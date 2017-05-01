@@ -2859,6 +2859,8 @@
 
   <java-symbol type="bool" name="config_permissionReviewRequired" />
 
+  <java-symbol type="bool" name="config_samsung_stk" />
+
   <java-symbol type="bool" name="use_lock_pattern_drawable" />
   <java-symbol type="drawable" name="lockscreen_notselected" />
   <java-symbol type="drawable" name="lockscreen_selected" />
