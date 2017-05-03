@@ -22,7 +22,6 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.UserHandle;
-import android.provider.Settings;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;
@@ -50,18 +49,11 @@ public class KeyguardStatusView extends GridLayout {
     private TextClock mClockView;
     private TextView mOwnerInfo;
 
-    //On the first boot, keyguard will start to receiver TIME_TICK intent.
-    //And onScreenTurnedOff will not get called if power off when keyguard is not started.
-    //Set initial value to false to skip the above case.
-    private boolean enableRefresh = false;
-
     private KeyguardUpdateMonitorCallback mInfoCallback = new KeyguardUpdateMonitorCallback() {
 
         @Override
         public void onTimeChanged() {
-            if (enableRefresh) {
-                refresh();
-            }
+            refresh();
         }
 
         @Override
@@ -76,14 +68,11 @@ public class KeyguardStatusView extends GridLayout {
         @Override
         public void onStartedWakingUp() {
             setEnableMarquee(true);
-            enableRefresh = true;
-            refresh();
         }
 
         @Override
         public void onFinishedGoingToSleep(int why) {
             setEnableMarquee(false);
-            enableRefresh = false;
         }
 
         @Override
@@ -252,21 +241,14 @@ public class KeyguardStatusView extends GridLayout {
             final String clockView24Skel = res.getString(R.string.clock_24hr_format);
             final String key = locale.toString() + dateViewSkel + clockView12Skel + clockView24Skel;
             if (key.equals(cacheKey)) return;
-            if (res.getBoolean(com.android.internal.R.bool.config_dateformat)) {
-                final String dateformat = Settings.System.getString(context.getContentResolver(),
-                        Settings.System.DATE_FORMAT);
-                dateView = dateformat;
-            } else {
-                dateView = DateFormat.getBestDateTimePattern(locale, dateViewSkel);
-            }
+
+            dateView = DateFormat.getBestDateTimePattern(locale, dateViewSkel);
 
             clockView12 = DateFormat.getBestDateTimePattern(locale, clockView12Skel);
-            if(!context.getResources().getBoolean(R.bool.config_showAmpm)){
-                // CLDR insists on adding an AM/PM indicator even though it wasn't in the skeleton
-                // format.  The following code removes the AM/PM indicator if we didn't want it.
-                if (!clockView12Skel.contains("a")) {
-                    clockView12 = clockView12.replaceAll("a", "").trim();
-                }
+            // CLDR insists on adding an AM/PM indicator even though it wasn't in the skeleton
+            // format.  The following code removes the AM/PM indicator if we didn't want it.
+            if (!clockView12Skel.contains("a")) {
+                clockView12 = clockView12.replaceAll("a", "").trim();
             }
 
             clockView24 = DateFormat.getBestDateTimePattern(locale, clockView24Skel);

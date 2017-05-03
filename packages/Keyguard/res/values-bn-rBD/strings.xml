@@ -129,10 +129,4 @@
       <item quantity="other">ডিভাইস <xliff:g id="NUMBER_1">%d</xliff:g> ঘন্টার জন্য আনলক করা হয়নি। পাসওয়ার্ড নিশ্চিত করুন৷</item>
     </plurals>
     <string name="fingerprint_not_recognized" msgid="2690661881608146617">"স্বীকৃত নয়"</string>
-
-    <!-- Instructions telling the user remaining times when enter SIM PIN view.  -->
-    <plurals name="kg_password_default_pin_message">
-        <item quantity="one">"SIM<xliff:g id="slotid">%d</xliff:g> PIN টাইপ করুন, আপনার আর <xliff:g id="number">%d</xliff:g>টি প্রচেষ্টা অবশিষ্ট আছে যার পরে আপনার ডিভাইসটি আনলক করতে আপনাকে অবশ্যই নিজের ক্যারিয়ারের সঙ্গে যোগাযোগ করতে হবে।"</item>
-        <item quantity="other">"SIM<xliff:g id="slotid">%d</xliff:g> PIN টাইপ করুন, আর <xliff:g id="number">%d</xliff:g>টি প্রচেষ্টা অবশিষ্ট আছে।"</item>
-    </plurals>
 </resources>
