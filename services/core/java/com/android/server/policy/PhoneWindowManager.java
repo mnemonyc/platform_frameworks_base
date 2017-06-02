@@ -148,6 +148,7 @@ import android.view.accessibility.AccessibilityManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 import com.android.internal.R;
 import com.android.internal.annotations.GuardedBy;
 import com.android.internal.logging.MetricsLogger;
@@ -156,6 +157,7 @@ import com.android.internal.policy.PhoneWindow;
 import com.android.internal.policy.IKeyguardService;
 import com.android.internal.policy.IShortcutService;
 import com.android.internal.statusbar.IStatusBarService;
+import com.android.internal.util.DevUtils;
 import com.android.internal.util.ScreenShapeHelper;
 import com.android.internal.widget.PointerLocationView;
 import com.android.server.GestureLauncherService;
@@ -172,6 +174,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.lang.reflect.Constructor;
 
 import dalvik.system.PathClassLoader;
@@ -252,7 +255,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private static final int KEY_ACTION_LAST_APP = 9;
     private static final int KEY_ACTION_SINGLE_HAND_RIGHT = 10;
     private static final int KEY_ACTION_SINGLE_HAND_LEFT = 11;
-    private static final int KEY_ACTION_SPLIT_SCREEN = 12;
+    private static final int KEY_ACTION_KILL_APP = 12;
+    private static final int KEY_ACTION_SPLIT_SCREEN = 13;
 
     // Special values, used internal only.
     private static final int KEY_ACTION_HOME = 1;
@@ -1811,6 +1815,17 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     }
 
     private final ScreenshotRunnable mScreenshotRunnable = new ScreenshotRunnable();
+
+    Runnable mKillApp = new Runnable() {
+        public void run() {
+            String killResult = DevUtils.killForegroundApp(mContext, mCurrentUserId);
+            Toast.makeText(mContext, killResult == null
+                ? mContext.getString(R.string.no_app_killed_message)
+                : String.format(Locale.getDefault(),
+                        mContext.getString(R.string.app_killed_message),
+                        killResult), Toast.LENGTH_SHORT).show();
+        }
+    };
 
     @Override
     public void showGlobalActions() {
@@ -4260,6 +4275,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 case KEY_ACTION_SPLIT_SCREEN:
                     toggleSplitScreen();
                     break;
+                case KEY_ACTION_KILL_APP:
+                    mKillApp.run();
+                    break;
                 case KEY_ACTION_SCREEN_OFF:
                     screenOff();
                     break;
@@ -4439,6 +4457,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                             || pressBehavior == KEY_ACTION_LAST_APP
                             || longPressBehavior == KEY_ACTION_LAST_APP
                             || doubleTapBehavior == KEY_ACTION_LAST_APP
+                            || pressBehavior == KEY_ACTION_KILL_APP
+                            || longPressBehavior == KEY_ACTION_KILL_APP
+                            || doubleTapBehavior == KEY_ACTION_KILL_APP
                             || pressBehavior == KEY_ACTION_HOME
                             || longPressBehavior == KEY_ACTION_HOME
                             || doubleTapBehavior == KEY_ACTION_HOME

@@ -96,4 +96,9 @@
   <java-symbol type="bool" name="config_invert_colors_on_doze" />
 
   <java-symbol type="integer" name="config_deviceHardwareWakeKeys" />
+
+  <!-- Kill app long press back -->
+  <java-symbol type="string" name="app_killed_message" />
+  <java-symbol type="string" name="no_app_killed_message" />
+
 </resources>
