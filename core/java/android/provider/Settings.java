@@ -6833,6 +6833,12 @@ public final class Settings {
         public static final String LOCKSCREEN_QUICK_UNLOCK_CONTROL = "lockscreen_quick_unlock_control";
 
         /**
+         * Whether to remove power menu action from lockscreen
+         * @hide
+         */
+        public static final String LOCKSCREEN_POWER_MENU_DISABLED = "lockscreen_power_menu_disabled";
+
+        /**
          * Names of the service components that the current user has explicitly allowed to
          * see all of the user's notifications, separated by ':'.
          *
@@ -7315,7 +7321,8 @@ public final class Settings {
             STATUS_BAR_BATTERY_STYLE,
             STATUS_BAR_BATTERY_STYLE_TILE,
             NFC_PAYMENT_DEFAULT_COMPONENT,
-            LOCKSCREEN_QUICK_UNLOCK_CONTROL
+            LOCKSCREEN_QUICK_UNLOCK_CONTROL,
+            LOCKSCREEN_POWER_MENU_DISABLED
         };
 
         /**

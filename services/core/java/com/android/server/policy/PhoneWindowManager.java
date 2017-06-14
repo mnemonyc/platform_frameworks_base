@@ -1158,6 +1158,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.HOME_PRESS_VIBRATION), false, this,
                     UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.Secure.getUriFor(
+                    Settings.Secure.LOCKSCREEN_POWER_MENU_DISABLED), false, this,
+                    UserHandle.USER_ALL);
             updateSettings();
         }
 
@@ -1680,7 +1683,13 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 if (!performHapticFeedbackLw(null, HapticFeedbackConstants.LONG_PRESS, false)) {
                     performAuditoryFeedbackForAccessibilityIfNeed();
                 }
+                boolean hideGlobalActionsOnLockScreen = Settings.Secure.getIntForUser(mContext.getContentResolver(),
+                    Settings.Secure.LOCKSCREEN_POWER_MENU_DISABLED, 0, UserHandle.USER_CURRENT) == 1;
+		if (keyguardOn() && hideGlobalActionsOnLockScreen) {
+                    behavior = LONG_PRESS_POWER_NOTHING;
+                } else {
                     showGlobalActionsInternal();
+                }
                 break;
             case LONG_PRESS_POWER_SHUT_OFF:
             case LONG_PRESS_POWER_SHUT_OFF_NO_CONFIRM:
